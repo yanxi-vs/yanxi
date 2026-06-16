@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  lawyer-platform:
+    build: .
+    container_name: lawyer-platform
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./lawyer_platform.db:/app/lawyer_platform.db
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped

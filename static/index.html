@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>律师管理平台 | Lawyer AI OS</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-ring"></div>
+        <div class="logo-text">
+          <div class="logo-title">LAWYER AI OS</div>
+          <div class="logo-subtitle">律师智能管理平台</div>
+        </div>
+      </div>
+      
+      <nav class="nav">
+        <!-- 业务管理 -->
+        <div class="nav-group">
+          <div class="nav-group-title">业务管理</div>
+          <a href="#dashboard" class="nav-item active" data-page="dashboard">
+            <span class="nav-icon">◈</span> 数据看板
+          </a>
+          <a href="#lawyers" class="nav-item" data-page="lawyers">
+            <span class="nav-icon">⚖</span> 律师管理
+          </a>
+          <a href="#clients" class="nav-item" data-page="clients">
+            <span class="nav-icon">◉</span> 客户管理
+          </a>
+          <a href="#cases" class="nav-item" data-page="cases">
+            <span class="nav-icon">▣</span> 案件管理
+          </a>
+          <a href="#appointments" class="nav-item" data-page="appointments">
+            <span class="nav-icon">◷</span> 预约管理
+          </a>
+        </div>
+
+        <!-- 智能体 -->
+        <div class="nav-group">
+          <div class="nav-group-title">智能体</div>
+          <a href="#agent-list" class="nav-item" data-page="agent-list">
+            <span class="nav-icon">◇</span> 智能体列表
+          </a>
+          <a href="#agent-create" class="nav-item" data-page="agent-create">
+            <span class="nav-icon">✦</span> 创建智能体
+          </a>
+          <a href="#agent-templates" class="nav-item" data-page="agent-templates">
+            <span class="nav-icon">☰</span> 智能体模板
+          </a>
+        </div>
+
+        <!-- 数字化运营 -->
+        <div class="nav-group">
+          <div class="nav-group-title">数字化运营</div>
+          <a href="#ops-performance" class="nav-item" data-page="ops-performance">
+            <span class="nav-icon">◆</span> 绩效统计
+          </a>
+          <a href="#ops-compliance" class="nav-item" data-page="ops-compliance">
+            <span class="nav-icon">◉</span> 合规风险
+          </a>
+          <a href="#ops-revenue" class="nav-item" data-page="ops-revenue">
+            <span class="nav-icon">$</span> 成本营收
+          </a>
+          <a href="#ops-training" class="nav-item" data-page="ops-training">
+            <span class="nav-icon">◐</span> 新人培养
+          </a>
+        </div>
+
+        <!-- 系统设置 -->
+        <div class="nav-group">
+          <div class="nav-group-title">系统设置</div>
+          <a href="#settings-system" class="nav-item" data-page="settings-system">
+            <span class="nav-icon">◈</span> 系统设置
+          </a>
+          <a href="#settings-security" class="nav-item" data-page="settings-security">
+            <span class="nav-icon">◉</span> 权限与安全
+          </a>
+          <a href="#settings-model" class="nav-item" data-page="settings-model">
+            <span class="nav-icon">◐</span> 模型配置
+          </a>
+          <a href="#settings-audit" class="nav-item" data-page="settings-audit">
+            <span class="nav-icon">▣</span> 审计日志
+          </a>
+          <a href="#settings-help" class="nav-item" data-page="settings-help">
+            <span class="nav-icon">?</span> 帮助中心
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="system-status">
+          <span class="pulse"></span>
+          <span>AI CORE ONLINE</span>
+        </div>
+        <div class="version">v2.0.0 BETA</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="breadcrumb">
+          <span id="page-title">数据看板</span>
+          <span class="page-tag" id="page-tag">DASHBOARD</span>
+        </div>
+        <div class="topbar-actions">
+          <div class="search-box">
+            <input type="text" placeholder="全局搜索..." id="global-search">
+            <span class="search-icon">⌕</span>
+          </div>
+          <button class="icon-btn" title="通知">◉</button>
+          <button class="icon-btn" title="主题" onclick="toggleTheme()">◐</button>
+          <div class="user-profile">
+            <div class="avatar">管</div>
+            <span>管理员</span>
+          </div>
+        </div>
+      </header>
+
+      <div class="content">
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="page active">
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">⚖</div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-lawyers">0</div>
+                <div class="stat-label">执业律师</div>
+              </div>
+              <div class="stat-trend up">+12%</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">◉</div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-clients">0</div>
+                <div class="stat-label">客户数量</div>
+              </div>
+              <div class="stat-trend up">+8%</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">▣</div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-cases">0</div>
+                <div class="stat-label">案件总数</div>
+              </div>
+              <div class="stat-trend up">+23%</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">✦</div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-active-cases">0</div>
+                <div class="stat-label">进行中案件</div>
+              </div>
+              <div class="stat-trend up">+5%</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">◇</div>
+              <div class="stat-info">
+                <div class="stat-value" id="stat-agents">6</div>
+                <div class="stat-label">智能体</div>
+              </div>
+              <div class="stat-trend up">+2</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">$</div>
+              <div class="stat-info">
+                <div class="stat-value">128.5<span class="unit">万</span></div>
+                <div class="stat-label">本月营收</div>
+              </div>
+              <div class="stat-trend up">+15%</div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="card card-large">
+              <div class="card-header">
+                <div>
+                  <h3>案件趋势分析</h3>
+                  <div class="card-subtitle">CASE TREND ANALYSIS</div>
+                </div>
+                <div class="card-actions">
+                  <button class="btn btn-sm btn-ghost active">本月</button>
+                  <button class="btn btn-sm btn-ghost">本季</button>
+                  <button class="btn btn-sm btn-ghost">全年</button>
+                </div>
+              </div>
+              <div class="chart-container">
+                <div class="chart-bars" id="case-trend-chart"></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <h3>智能体运行状态</h3>
+                  <div class="card-subtitle">AGENT STATUS</div>
+                </div>
+              </div>
+              <div class="agent-status-list" id="agent-status-list"></div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <h3>最近案件</h3>
+                  <div class="card-subtitle">RECENT CASES</div>
+                </div>
+                <a href="#cases" class="link">查看全部 →</a>
+              </div>
+              <div class="table-responsive">
+                <table class="tech-table">
+                  <thead>
+                    <tr>
+                      <th>案件编号</th>
+                      <th>案件名称</th>
+                      <th>状态</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recent-cases"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <h3>合规风险预警</h3>
+                  <div class="card-subtitle">RISK ALERTS</div>
+                </div>
+              </div>
+              <div class="risk-list" id="risk-list"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- LAWYERS -->
+        <section id="lawyers" class="page">
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <button class="btn btn-primary" onclick="openModal('lawyer')">+ 新增律师</button>
+              <button class="btn btn-secondary" onclick="exportData('lawyers')">⤓ 导出</button>
+            </div>
+            <div class="toolbar-right">
+              <input type="text" class="search-input" placeholder="搜索律师..." id="lawyer-search" oninput="filterTable('lawyers', this.value)">
+              <select class="filter-select" id="lawyer-status-filter" onchange="filterTable('lawyers', null, this.value)">
+                <option value="">全部状态</option>
+                <option value="在职">在职</option>
+                <option value="离职">离职</option>
+                <option value="休假">休假</option>
+              </select>
+            </div>
+          </div>
+          <div class="card">
+            <div class="table-responsive">
+              <table class="tech-table">
+                <thead>
+                  <tr>
+                    <th>姓名</th>
+                    <th>职位</th>
+                    <th>专业领域</th>
+                    <th>联系电话</th>
+                    <th>邮箱</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="lawyers-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- CLIENTS -->
+        <section id="clients" class="page">
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <button class="btn btn-primary" onclick="openModal('client')">+ 新增客户</button>
+            </div>
+            <div class="toolbar-right">
+              <input type="text" class="search-input" placeholder="搜索客户..." oninput="filterTable('clients', this.value)">
+            </div>
+          </div>
+          <div class="card">
+            <div class="table-responsive">
+              <table class="tech-table">
+                <thead>
+                  <tr>
+                    <th>姓名</th>
+                    <th>公司</th>
+                    <th>联系电话</th>
+                    <th>邮箱</th>
+                    <th>备注</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="clients-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- CASES -->
+        <section id="cases" class="page">
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <button class="btn btn-primary" onclick="openModal('case')">+ 新增案件</button>
+            </div>
+            <div class="toolbar-right">
+              <input type="text" class="search-input" placeholder="搜索案件..." oninput="filterTable('cases', this.value)">
+              <select class="filter-select" onchange="filterCasesByStatus(this.value)">
+                <option value="">全部状态</option>
+                <option value="进行中">进行中</option>
+                <option value="已结案">已结案</option>
+                <option value="已归档">已归档</option>
+              </select>
+            </div>
+          </div>
+          <div class="card">
+            <div class="table-responsive">
+              <table class="tech-table">
+                <thead>
+                  <tr>
+                    <th>案件编号</th>
+                    <th>案件名称</th>
+                    <th>承办律师</th>
+                    <th>客户</th>
+                    <th>状态</th>
+                    <th>更新时间</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="cases-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- APPOINTMENTS -->
+        <section id="appointments" class="page">
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <button class="btn btn-primary" onclick="openModal('appointment')">+ 新增预约</button>
+            </div>
+            <div class="toolbar-right">
+              <input type="text" class="search-input" placeholder="搜索预约..." oninput="filterTable('appointments', this.value)">
+            </div>
+          </div>
+          <div class="card">
+            <div class="table-responsive">
+              <table class="tech-table">
+                <thead>
+                  <tr>
+                    <th>主题</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>地点</th>
+                    <th>律师</th>
+                    <th>客户</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="appointments-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- AGENT LIST -->
+        <section id="agent-list" class="page">
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <button class="btn btn-primary" onclick="openModal('agent')">+ 注册智能体</button>
+              <button class="btn btn-secondary" onclick="batchOperate('agent')">批量操作</button>
+            </div>
+            <div class="toolbar-right">
+              <input type="text" class="search-input" placeholder="搜索智能体..." oninput="renderAgentList(this.value)">
+              <select class="filter-select" onchange="renderAgentList(null, this.value)">
+                <option value="">全部状态</option>
+                <option value="运行中">运行中</option>
+                <option value="空闲">空闲</option>
+                <option value="维护中">维护中</option>
+              </select>
+            </div>
+          </div>
+          <div class="agent-grid" id="agent-grid"></div>
+        </section>
+
+        <!-- AGENT CREATE -->
+        <section id="agent-create" class="page">
+          <div class="card agent-create-card">
+            <div class="card-header">
+              <div>
+                <h3>创建智能体</h3>
+                <div class="card-subtitle">CREATE AI AGENT</div>
+              </div>
+            </div>
+            <div class="wizard-steps">
+              <div class="wizard-step active" data-step="1">1. 基础配置</div>
+              <div class="wizard-step" data-step="2">2. 能力配置</div>
+              <div class="wizard-step" data-step="3">3. 知识库</div>
+              <div class="wizard-step" data-step="4">4. 发布上线</div>
+            </div>
+            <form id="agent-create-form" onsubmit="handleAgentCreate(event)">
+              <div class="wizard-content">
+                <div class="wizard-panel active" data-panel="1">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>智能体名称</label>
+                      <input type="text" name="agentName" placeholder="例如：合同审查助手" required>
+                    </div>
+                    <div class="form-group">
+                      <label>智能体编码</label>
+                      <input type="text" name="agentCode" placeholder="AGENT-XXX" required>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>功能描述</label>
+                    <textarea name="agentDesc" placeholder="描述该智能体的核心能力..."></textarea>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label>所属部门</label>
+                      <select name="department">
+                        <option>民商事部</option>
+                        <option>刑事部</option>
+                        <option>知识产权部</option>
+                        <option>常法中心</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>优先级</label>
+                      <select name="priority">
+                        <option>高</option>
+                        <option selected>中</option>
+                        <option>低</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="wizard-panel" data-panel="2">
+                  <div class="capability-grid">
+                    <label class="capability-card">
+                      <input type="checkbox" name="capabilities" value="contract-review">
+                      <div class="capability-content">
+                        <div class="capability-icon">📄</div>
+                        <div class="capability-title">合同审查</div>
+                        <div class="capability-desc">自动识别合同风险条款</div>
+                      </div>
+                    </label>
+                    <label class="capability-card">
+                      <input type="checkbox" name="capabilities" value="legal-research">
+                      <div class="capability-content">
+                        <div class="capability-icon">🔍</div>
+                        <div class="capability-title">法律检索</div>
+                        <div class="capability-desc">案例法规智能检索</div>
+                      </div>
+                    </label>
+                    <label class="capability-card">
+                      <input type="checkbox" name="capabilities" value="document-draft">
+                      <div class="capability-content">
+                        <div class="capability-icon">✍</div>
+                        <div class="capability-title">文书起草</div>
+                        <div class="capability-desc">起诉状答辩状生成</div>
+                      </div>
+                    </label>
+                    <label class="capability-card">
+                      <input type="checkbox" name="capabilities" value="client-consult">
+                      <div class="capability-content">
+                        <div class="capability-icon">💬</div>
+                        <div class="capability-title">客户咨询</div>
+                        <div class="capability-desc">7×24 在线客服</div>
+                      </div>
+                    </label>
+                    <label class="capability-card">
+                      <input type="checkbox" name="capabilities" value="risk-warning">
+                      <div class="capability-content">
+                        <div class="capability-icon">⚠</div>
+                        <div class="capability-title">风险预警</div>
+                        <div class="capability-desc">案件风险实时提醒</div>
+                      </div>
+                    </label>
+                    <label class="capability-card">
+                      <input type="checkbox" name="capabilities" value="compliance-check">
+                      <div class="capability-content">
+                        <div class="capability-icon">✓</div>
+                        <div class="capability-title">合规检查</div>
+                        <div class="capability-desc">执业合规性审查</div>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+                <div class="wizard-panel" data-panel="3">
+                  <div class="form-group">
+                    <label>关联知识库</label>
+                    <div class="knowledge-list">
+                      <label class="knowledge-item">
+                        <input type="checkbox" checked>
+                        <span>民商事法律法规库</span>
+                        <span class="knowledge-size">12,580 条</span>
+                      </label>
+                      <label class="knowledge-item">
+                        <input type="checkbox">
+                        <span>合同模板库</span>
+                        <span class="knowledge-size">3,420 条</span>
+                      </label>
+                      <label class="knowledge-item">
+                        <input type="checkbox">
+                        <span>判例库</span>
+                        <span class="knowledge-size">89,600 条</span>
+                      </label>
+                      <label class="knowledge-item">
+                        <input type="checkbox">
+                        <span>律所内部规范</span>
+                        <span class="knowledge-size">156 条</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>上传私有文档</label>
+                    <div class="upload-zone" onclick="document.getElementById('agent-docs').click()">
+                      <div class="upload-icon">⬆</div>
+                      <div>点击或拖拽上传 PDF/Word/TXT</div>
+                      <input type="file" id="agent-docs" multiple hidden>
+                    </div>
+                  </div>
+                </div>
+                <div class="wizard-panel" data-panel="4">
+                  <div class="deploy-preview">
+                    <div class="preview-icon">✦</div>
+                    <h4>发布前确认</h4>
+                    <p>智能体创建后将自动接入工作流，并分配运行资源。</p>
+                    <div class="deploy-config">
+                      <div class="deploy-item"><span>运行环境</span><span>私有云 A1</span></div>
+                      <div class="deploy-item"><span>并发能力</span><span>100 QPS</span></div>
+                      <div class="deploy-item"><span>数据隔离</span><span>律所级加密</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="wizard-actions">
+                <button type="button" class="btn btn-secondary" id="wizard-prev" onclick="changeWizardStep(-1)">上一步</button>
+                <button type="button" class="btn btn-primary" id="wizard-next" onclick="changeWizardStep(1)">下一步</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- AGENT TEMPLATES -->
+        <section id="agent-templates" class="page">
+          <div class="toolbar">
+            <div class="toolbar-left">
+              <button class="btn btn-primary">+ 新建模板</button>
+            </div>
+            <div class="toolbar-right">
+              <input type="text" class="search-input" placeholder="搜索模板...">
+            </div>
+          </div>
+          <div class="template-grid" id="template-grid"></div>
+        </section>
+
+        <!-- OPS PERFORMANCE -->
+        <section id="ops-performance" class="page">
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-icon">◆</div><div class="stat-info"><div class="stat-value">92.5<span class="unit">%</span></div><div class="stat-label">目标达成率</div></div><div class="stat-trend up">+3.2%</div></div>
+            <div class="stat-card"><div class="stat-icon">⚖</div><div class="stat-info"><div class="stat-value">8.4<span class="unit">件</span></div><div class="stat-label">人均办案</div></div><div class="stat-trend up">+1.1</div></div>
+            <div class="stat-card"><div class="stat-icon">◉</div><div class="stat-info"><div class="stat-value">4.2<span class="unit">天</span></div><div class="stat-label">平均响应</div></div><div class="stat-trend down">-0.8</div></div>
+            <div class="stat-card"><div class="stat-icon">$</div><div class="stat-info"><div class="stat-value">16.2<span class="unit">万</span></div><div class="stat-label">人均创收</div></div><div class="stat-trend up">+5.4%</div></div>
+          </div>
+          <div class="dashboard-grid">
+            <div class="card card-large">
+              <div class="card-header"><div><h3>律师绩效排行</h3><div class="card-subtitle">PERFORMANCE RANKING</div></div></div>
+              <div class="performance-list" id="performance-list"></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div><h3>部门对比</h3><div class="card-subtitle">DEPARTMENT COMPARISON</div></div></div>
+              <div class="dept-comparison" id="dept-comparison"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- OPS COMPLIANCE -->
+        <section id="ops-compliance" class="page">
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-icon">✓</div><div class="stat-info"><div class="stat-value">98.7<span class="unit">%</span></div><div class="stat-label">合规率</div></div><div class="stat-trend up">+0.5%</div></div>
+            <div class="stat-card"><div class="stat-icon">⚠</div><div class="stat-info"><div class="stat-value">3</div><div class="stat-label">待处理风险</div></div><div class="stat-trend down">-2</div></div>
+            <div class="stat-card"><div class="stat-icon">▣</div><div class="stat-info"><div class="stat-value">12</div><div class="stat-label">本月审计</div></div><div class="stat-trend up">+4</div></div>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <div><h3>合规风险清单</h3><div class="card-subtitle">COMPLIANCE RISK LIST</div></div>
+              <button class="btn btn-primary" onclick="openModal('risk')">+ 新增风险</button>
+            </div>
+            <div class="table-responsive">
+              <table class="tech-table">
+                <thead>
+                  <tr><th>风险编号</th><th>风险类型</th><th>关联案件</th><th>责任律师</th><th>风险等级</th><th>处理状态</th><th>操作</th></tr>
+                </thead>
+                <tbody id="compliance-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- OPS REVENUE -->
+        <section id="ops-revenue" class="page">
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-icon">$</div><div class="stat-info"><div class="stat-value">386.4<span class="unit">万</span></div><div class="stat-label">年度营收</div></div><div class="stat-trend up">+18%</div></div>
+            <div class="stat-card"><div class="stat-icon">◐</div><div class="stat-info"><div class="stat-value">142.8<span class="unit">万</span></div><div class="stat-label">年度成本</div></div><div class="stat-trend down">+5%</div></div>
+            <div class="stat-card"><div class="stat-icon">◈</div><div class="stat-info"><div class="stat-value">63.0<span class="unit">%</span></div><div class="stat-label">毛利率</div></div><div class="stat-trend up">+4.2%</div></div>
+          </div>
+          <div class="dashboard-grid">
+            <div class="card card-large">
+              <div class="card-header"><div><h3>月度收支趋势</h3><div class="card-subtitle">MONTHLY REVENUE & COST</div></div></div>
+              <div class="chart-container"><div class="chart-bars dual" id="revenue-chart"></div></div>
+            </div>
+            <div class="card">
+              <div class="card-header"><div><h3>收入构成</h3><div class="card-subtitle">REVENUE BREAKDOWN</div></div></div>
+              <div class="revenue-breakdown" id="revenue-breakdown"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- OPS TRAINING -->
+        <section id="ops-training" class="page">
+          <div class="stats-grid">
+            <div class="stat-card"><div class="stat-icon">◉</div><div class="stat-info"><div class="stat-value">8</div><div class="stat-label">在培新人</div></div><div class="stat-trend up">+2</div></div>
+            <div class="stat-card"><div class="stat-icon">▣</div><div class="stat-info"><div class="stat-value">24</div><div class="stat-label">培训课程</div></div><div class="stat-trend up">+6</div></div>
+            <div class="stat-card"><div class="stat-icon">✓</div><div class="stat-info"><div class="stat-value">87<span class="unit">%</span></div><div class="stat-label">平均完成率</div></div><div class="stat-trend up">+5%</div></div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div><h3>新人培养计划</h3><div class="card-subtitle">TRAINING PROGRAM</div></div><button class="btn btn-primary">+ 新建计划</button></div>
+            <div class="training-list" id="training-list"></div>
+          </div>
+        </section>
+
+        <!-- SETTINGS SYSTEM -->
+        <section id="settings-system" class="page">
+          <div class="card">
+            <div class="card-header"><div><h3>系统设置</h3><div class="card-subtitle">SYSTEM SETTINGS</div></div></div>
+            <div class="settings-form">
+              <div class="form-group"><label>律所名称</label><input type="text" value="某某律师事务所"></div>
+              <div class="form-row">
+                <div class="form-group"><label>系统语言</label><select><option>简体中文</option><option>English</option></select></div>
+                <div class="form-group"><label>时区</label><select><option>Asia/Shanghai</option></select></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label>数据保留期限</label><select><option>3年</option><option>5年</option><option>永久</option></select></div>
+                <div class="form-group"><label>自动备份</label><select><option>每天</option><option>每周</option><option>每月</option></select></div>
+              </div>
+              <div class="form-group toggle-row">
+                <label>启用操作日志</label>
+                <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+              </div>
+              <div class="form-group toggle-row">
+                <label>开启登录二次验证</label>
+                <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+              </div>
+              <div class="form-actions"><button class="btn btn-primary" onclick="showToast('系统设置已保存', 'success')">保存设置</button></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SETTINGS SECURITY -->
+        <section id="settings-security" class="page">
+          <div class="toolbar"><button class="btn btn-primary">+ 新增用户</button></div>
+          <div class="card">
+            <div class="card-header"><div><h3>权限与安全</h3><div class="card-subtitle">PERMISSIONS & SECURITY</div></div></div>
+            <div class="table-responsive">
+              <table class="tech-table">
+                <thead><tr><th>用户</th><th>角色</th><th>权限范围</th><th>最后登录</th><th>状态</th><th>操作</th></tr></thead>
+                <tbody id="security-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- SETTINGS MODEL -->
+        <section id="settings-model" class="page">
+          <div class="card">
+            <div class="card-header"><div><h3>模型配置</h3><div class="card-subtitle">MODEL CONFIGURATION</div></div></div>
+            <div class="settings-form">
+              <div class="form-row">
+                <div class="form-group"><label>默认大模型</label><select id="model-select"><option value="gpt-4">GPT-4</option><option value="claude-3">Claude 3</option><option value="qwen">通义千问</option><option value="kimi">Kimi</option></select></div>
+                <div class="form-group"><label>API Key</label><input type="password" value="sk-••••••••••••••••"></div>
+              </div>
+              <div class="form-row">
+                <div class="form-group"><label>温度 (Temperature)</label><input type="range" min="0" max="1" step="0.1" value="0.3" oninput="this.nextElementSibling.value=this.value"><output>0.3</output></div>
+                <div class="form-group"><label>最大 Token</label><input type="number" value="4096"></div>
+              </div>
+              <div class="form-group"><label>系统提示词</label><textarea rows="4">你是一名专业律师助理，擅长合同审查、法律检索和文书起草。请基于中国法律法规回答问题。</textarea></div>
+              <div class="form-actions"><button class="btn btn-primary" onclick="testModel()">测试连接</button><button class="btn btn-secondary" onclick="showToast('模型配置已保存', 'success')">保存配置</button></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SETTINGS AUDIT -->
+        <section id="settings-audit" class="page">
+          <div class="toolbar">
+            <div class="toolbar-right">
+              <input type="date" class="filter-select" value="2026-06-01">
+              <input type="date" class="filter-select" value="2026-06-30">
+              <button class="btn btn-secondary">筛选</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header"><div><h3>审计日志</h3><div class="card-subtitle">AUDIT LOGS</div></div></div>
+            <div class="table-responsive">
+              <table class="tech-table">
+                <thead><tr><th>时间</th><th>用户</th><th>操作</th><th>对象</th><th>IP</th><th>结果</th></tr></thead>
+                <tbody id="audit-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- SETTINGS HELP -->
+        <section id="settings-help" class="page">
+          <div class="card">
+            <div class="card-header"><div><h3>帮助中心</h3><div class="card-subtitle">HELP CENTER</div></div></div>
+            <div class="help-grid" id="help-grid"></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modal-overlay" onclick="closeModalOnOverlay(event)">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modal-title">新增</h3>
+        <button class="modal-close" onclick="closeModal()">×</button>
+      </div>
+      <form id="modal-form" onsubmit="handleFormSubmit(event)">
+        <div class="modal-body" id="modal-body"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal()">取消</button>
+          <button type="submit" class="btn btn-primary">保存</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
