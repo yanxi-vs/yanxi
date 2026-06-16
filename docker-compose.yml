@@ -3,11 +3,23 @@ version: '3.8'
 services:
   lawyer-platform:
     build: .
+    image: lawyer-platform:latest
     container_name: lawyer-platform
     ports:
-      - "8000:8000"
+      - "${PORT:-8000}:8000"
     volumes:
-      - ./lawyer_platform.db:/app/lawyer_platform.db
+      - lawyer_platform_data:/app/data
     environment:
       - PYTHONUNBUFFERED=1
+      - DATABASE_URL=sqlite:///app/data/lawyer_platform.db
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  lawyer_platform_data:
+    driver: local
